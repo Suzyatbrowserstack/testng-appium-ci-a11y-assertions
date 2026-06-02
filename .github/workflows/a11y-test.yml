@@ -3,9 +3,6 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -13,10 +10,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Resolve dependencies (downloads SDK javaagent)
-        working-directory: android
         run: mvn dependency:resolve
       - name: Run accessibility tests
-        working-directory: android
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
