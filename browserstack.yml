@@ -50,4 +50,6 @@ interactiveDebugging: true
 selfHeal: true
 idleTimeout: 300
 autoGrantPermissions: true
+
 selfHeal: true
+>>>>>>> Stashed changes

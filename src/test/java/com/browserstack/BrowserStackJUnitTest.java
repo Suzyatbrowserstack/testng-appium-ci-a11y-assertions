@@ -12,7 +12,6 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import org.junit.After;
 import org.junit.Before;
 import org.yaml.snakeyaml.Yaml;
-import java.util.HashMap;
 
 public class BrowserStackJUnitTest {
     public AndroidDriver driver;
@@ -39,16 +38,9 @@ public class BrowserStackJUnitTest {
         options.setCapability("appium:deviceName", "Samsung Galaxy S22");
         options.setCapability("appium:platformVersion", "12.0");
 
-        // Enable BrowserStack App Accessibility scanning via capability
-        // (ensures it works even when browserstack.yml credentials are from env vars)
-        Map<String, Object> bstackOptions = new HashMap<>();
-        bstackOptions.put("accessibility", true);
-        Map<String, Object> a11yOptions = new HashMap<>();
-        a11yOptions.put("wcagVersion", "wcag21aa");
-        bstackOptions.put("accessibilityOptions", a11yOptions);
-        options.setCapability("bstack:options", bstackOptions);
-
         driver = new AndroidDriver(new URL(String.format("https://%s:%s@hub.browserstack.com/wd/hub", userName , accessKey)), options);
+        // Register session with BrowserStack SDK for accessibility tracking
+        System.setProperty("browserstack.session.id", driver.getSessionId().toString());
     }
 
     @After
@@ -67,9 +59,7 @@ public class BrowserStackJUnitTest {
             InputStream inputStream = Files.newInputStream(yamlFile.toPath());
             Yaml yaml = new Yaml();
             Map<String, Object> config = yaml.load(inputStream);
-            if (config != null) {
-                map.putAll(config);
-            }
+            map.putAll(config);
         } catch (Exception e) {
             throw new RuntimeException(String.format("Malformed browserstack.yml file - %s.", e));
         }
