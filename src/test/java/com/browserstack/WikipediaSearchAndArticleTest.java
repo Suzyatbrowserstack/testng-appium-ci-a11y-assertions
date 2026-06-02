@@ -50,10 +50,22 @@ public class WikipediaSearchAndArticleTest extends BrowserStackJUnitTest {
                 AppiumBy.id("org.wikipedia.alpha:id/search_src_text")));
         searchInput.sendKeys("Android");
 
-        // Step 3: Wait for results and verify at least one is returned
+        // Step 3: Wait for results — dismiss any "error occurred" dialog that may appear
         new WebDriverWait(driver, Duration.ofSeconds(30))
             .until(ExpectedConditions.presenceOfElementLocated(
                 AppiumBy.id("org.wikipedia.alpha:id/page_list_item_container")));
+
+        // Dismiss in-app error dialog if present (appears over search results on network issues)
+        List<WebElement> errorDialogButtons = driver.findElements(
+            By.xpath("//*[contains(@text,'OK') or contains(@text,'Dismiss') or contains(@text,'Close') or contains(@text,'Got it')]"));
+        if (!errorDialogButtons.isEmpty()) {
+            System.out.println("[WARN] Error dialog detected — dismissing it.");
+            errorDialogButtons.get(0).click();
+            // Wait for dialog to close and results to be stable
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.stalenessOf(errorDialogButtons.get(0)));
+        }
+
         List<WebElement> results = driver.findElements(
             AppiumBy.id("org.wikipedia.alpha:id/page_list_item_container"));
         assertTrue("Search results should be displayed for 'Android'", results.size() > 0);
