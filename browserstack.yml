@@ -9,7 +9,7 @@ accessKey: BROWSERSTACK_ACCESS_KEY
 # ======================
 # BrowserStack Reporting
 # ======================
-projectName: BrowserStack a11y report debugging g2
+projectName: BrowserStack a11y report g2
 buildName: browserstack build
 buildIdentifier: '#${BUILD_NUMBER}'
 framework: junit4
