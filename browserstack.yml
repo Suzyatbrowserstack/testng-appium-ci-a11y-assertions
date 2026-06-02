@@ -47,10 +47,7 @@ accessibilityOptions:
   wcagVersion: wcag21aa
 
 interactiveDebugging: true
-<<<<<<< Updated upstream
 selfHeal: true
 idleTimeout: 300
 autoGrantPermissions: true
-=======
 selfHeal: true
->>>>>>> Stashed changes
