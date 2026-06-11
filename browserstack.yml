@@ -18,6 +18,8 @@ source: junit-appium-app-browserstack:archetype-setup:v1.0
 
 app: bs://62052639d354aea7139864ba993d1cf6106ef4a3
 
+
+
 # =======================================
 # Platforms
 # =======================================
